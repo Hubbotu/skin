@@ -66,7 +66,7 @@ select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,171,238,0.2
 <header>
 <div class="eyebrow">Планирование по кругу</div>
 <h1>График снятия шкур</h1>
-<p class="sub">Выберите имя — страница покажет все его даты до конца 2027 года.</p>
+<p class="sub">Выберите имя — страница покажет будущие даты до конца 2027 года.</p>
 </header>
 <section class="stats">
 <div class="stat" id="next-date-card">
@@ -94,7 +94,7 @@ select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,171,238,0.2
 </div>
 <div class="date-list" id="dates"></div>
 <div class="empty" id="empty" hidden>Для выбранного имени дат нет.</div>
-<p class="note">График распределен строго по 2 дня на каждого участника по кругу: Сергей → Юрий → Стас → Наташа.</p>
+<p class="note">Прошедшие даты автоматически скрываются. График распределен по 2 дня на каждого участника по кругу.</p>
 </section>
 </main>
 <script>
@@ -107,23 +107,27 @@ const empty = document.getElementById('empty');
 const fmt = new Intl.DateTimeFormat('ru-RU', {day:'2-digit',month:'2-digit',year:'numeric',weekday:'long'});
 function render() {
   const name = person.value;
-  const selected = records.filter(r => r.name === name);
-  heading.textContent = 'Даты: ' + name;
-  count.textContent = selected.length + ' ' + plural(selected.length);
-  dates.replaceChildren();
-  empty.hidden = selected.length !== 0;
-
+  
   const todayObj = new Date();
   const tzOffset = todayObj.getTimezoneOffset() * 60000;
   const localISODate = new Date(todayObj - tzOffset).toISOString().slice(0, 10);
 
+  const allForPerson = records.filter(r => r.name === name);
   let nextRec = null;
-  for (const r of selected) {
+  for (const r of allForPerson) {
     if (r.date >= localISODate) {
       nextRec = r;
       break;
     }
   }
+
+  // Filter out past dates so they are hidden from the list
+  const selected = allForPerson.filter(r => r.date >= localISODate);
+
+  heading.textContent = 'Даты: ' + name;
+  count.textContent = selected.length + ' ' + plural(selected.length);
+  dates.replaceChildren();
+  empty.hidden = selected.length !== 0;
 
   const nextCard = document.getElementById('next-date-card');
   const nextValue = document.getElementById('next-date-value');
