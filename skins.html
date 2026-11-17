@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>График снятия шкур</title>
+<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=SMvtF7l_vbhLhiERU2pWfTz6geg9T97xY3p5007-czO2pA2W3nLgxJgI31wWxpYJmMH6asZ8Y3X5M5UkLhmAxdTfvTh19QA0O8yNodSrve189zsHOcr72cQVG0aaLdvP1fBRYZgJ0CYK7LQDLQUM5hBV5wgMC4At6vi9M2QXI9tLzBdcaMgF2Z7Qsez2o6o_SjHK-ze9437jnH191H9jBL6FYUuedyLBjmQKQ1gXedBi0CTYJXJb3LOAtp3Oml-NA11ELnzwMcMHzZ25Agx8DuIMwZX8wUCKD1NWruSEsypqdoIXcuSoKnvsC-qvS86rfutUUvaS0lMywdSTigIZshzb_m96LBugSlDMqyyW6lQ" charset="UTF-8"></script><style>
+:root{--ink:#1c242b;--muted:#687782;--line:#dfe5ec;--accent:#2aabee;--soft:#e3f3fc}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  padding:30px 16px;
+  color:var(--ink);
+  font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  min-height:100vh;
+  background-color:#98c39b;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-opacity='0.22'%3E%3Cpath d='M18 24l14-6-4 15-4-4-6 5z'/%3E%3Ccircle cx='78' cy='25' r='8'/%3E%3Cpath d='M74 25h8M78 21v8'/%3E%3Cpath d='M25 82c0-6 10-6 10 0 0 5-10 10-10 10s-10-5-10-10c0-6 10-6 10 0z'/%3E%3Crect x='76' y='74' width='20' height='14' rx='4'/%3E%3Cpath d='M82 88l-4 5v-5'/%3E%3Ccircle cx='54' cy='54' r='4'/%3E%3Cpath d='M102 48l6 6m0-6l-6 6'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(135deg, #c9e4c5 0%, #9ac99e 45%, #77b39c 100%);
+  background-attachment: fixed;
+}
+main{max-width:760px;margin:0 auto}
+header{
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.7);
+  border-radius:18px;
+  padding:20px 22px;
+  box-shadow:0 4px 16px rgba(24,52,38,0.12);
+}
+.eyebrow{color:#2185c5;font-size:12px;font-weight:750;letter-spacing:.11em;text-transform:uppercase}
+h1{margin:6px 0 5px;font-size:clamp(26px,5vw,34px);letter-spacing:-.03em;color:#18222d}
+.sub{margin:0;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.stat,.panel{
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.8);
+  border-radius:16px;
+  box-shadow:0 4px 14px rgba(24,52,38,0.1);
+}
+.stat{padding:16px 18px}.stat strong{display:block;font-size:23px;letter-spacing:-.03em}.stat span{color:var(--muted);font-size:13px}
+.panel{padding:20px;margin-bottom:16px}
+label{display:block;margin-bottom:8px;font-weight:700;color:#18222d}
+select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit;outline:none;cursor:pointer}
+select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,171,238,0.2)}
+.result-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 12px}
+.result-head h2{font-size:19px;margin:0}
+.pill{padding:4px 11px;border-radius:99px;background:var(--soft);color:#1b82bd;font-size:12px;font-weight:700}
+.date-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.date-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid #e6edf3;border-radius:12px;background:#fff}
+.date-item strong{font-variant-numeric:tabular-nums}
+.date-item small{color:var(--muted)}
+.empty{padding:22px;text-align:center;color:var(--muted)}
+.note{margin:14px 2px 0;color:var(--muted);font-size:12px}
+@media(max-width:480px){body{padding:18px 12px}.date-list{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+.stat.today { background: #e8f8ed !important; border-color: #8ce0a8 !important; color: #14532d !important; }
+.stat.today span { color: #166534 !important; font-weight: 600; }
+.stat.tomorrow { background: #fef9c3 !important; border-color: #fde047 !important; color: #713f12 !important; }
+.stat.tomorrow span { color: #854d0e !important; font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+<header>
+<div class="eyebrow">Планирование по кругу</div>
+<h1>График снятия шкур</h1>
+<p class="sub">Выберите имя — страница покажет все его даты до конца 2027 года.</p>
+</header>
+<section class="stats">
+<div class="stat" id="next-date-card">
+  <strong id="next-date-value">—</strong>
+  <span id="next-date-label">Ближайшая дата снятия шкур</span>
+</div>
+<div class="stat">
+  <strong>31.12.2027</strong>
+  <span>Конец расчётного периода</span>
+</div>
+</section>
+<section class="panel">
+<label for="person">Выберите имя</label>
+<select id="person">
+<option value="Сергей">Сергей</option>
+<option value="Юрий">Юрий</option>
+<option value="Стас">Стас</option>
+<option value="Наташа">Наташа</option>
+</select>
+</section>
+<section class="panel">
+<div class="result-head">
+<h2 id="heading">Даты: Сергей</h2>
+<span class="pill" id="count">0 дат</span>
+</div>
+<div class="date-list" id="dates"></div>
+<div class="empty" id="empty" hidden>Для выбранного имени дат нет.</div>
+<p class="note">Исходные записи сохранены, включая повторы. Начиная с 22.11.2026 график продолжается ежедневно по кругу: Сергей → Юрий → Стас → Наташа.</p>
+</section>
+</main>
+<script>
+const records = [{"name": "Сергей", "date": "2026-11-17", "source": true}, {"name": "Сергей", "date": "2026-11-18", "source": true}, {"name": "Юрий", "date": "2026-11-19", "source": true}, {"name": "Юрий", "date": "2026-11-19", "source": true}, {"name": "Стас", "date": "2026-11-20", "source": true}, {"name": "Стас", "date": "2026-11-20", "source": true}, {"name": "Наташа", "date": "2026-11-21", "source": true}, {"name": "Наташа", "date": "2026-11-21", "source": true}, {"name": "Сергей", "date": "2026-11-22", "source": false}, {"name": "Юрий", "date": "2026-11-23", "source": false}, {"name": "Стас", "date": "2026-11-24", "source": false}, {"name": "Наташа", "date": "2026-11-25", "source": false}, {"name": "Сергей", "date": "2026-11-26", "source": false}, {"name": "Юрий", "date": "2026-11-27", "source": false}, {"name": "Стас", "date": "2026-11-28", "source": false}, {"name": "Наташа", "date": "2026-11-29", "source": false}, {"name": "Сергей", "date": "2026-11-30", "source": false}, {"name": "Юрий", "date": "2026-12-01", "source": false}, {"name": "Стас", "date": "2026-12-02", "source": false}, {"name": "Наташа", "date": "2026-12-03", "source": false}, {"name": "Сергей", "date": "2026-12-04", "source": false}, {"name": "Юрий", "date": "2026-12-05", "source": false}, {"name": "Стас", "date": "2026-12-06", "source": false}, {"name": "Наташа", "date": "2026-12-07", "source": false}, {"name": "Сергей", "date": "2026-12-08", "source": false}, {"name": "Юрий", "date": "2026-12-09", "source": false}, {"name": "Стас", "date": "2026-12-10", "source": false}, {"name": "Наташа", "date": "2026-12-11", "source": false}, {"name": "Сергей", "date": "2026-12-12", "source": false}, {"name": "Юрий", "date": "2026-12-13", "source": false}, {"name": "Стас", "date": "2026-12-14", "source": false}, {"name": "Наташа", "date": "2026-12-15", "source": false}, {"name": "Сергей", "date": "2026-12-16", "source": false}, {"name": "Юрий", "date": "2026-12-17", "source": false}, {"name": "Стас", "date": "2026-12-18", "source": false}, {"name": "Наташа", "date": "2026-12-19", "source": false}, {"name": "Сергей", "date": "2026-12-20", "source": false}, {"name": "Юрий", "date": "2026-12-21", "source": false}, {"name": "Стас", "date": "2026-12-22", "source": false}, {"name": "Наташа", "date": "2026-12-23", "source": false}, {"name": "Сергей", "date": "2026-12-24", "source": false}, {"name": "Юрий", "date": "2026-12-25", "source": false}, {"name": "Стас", "date": "2026-12-26", "source": false}, {"name": "Наташа", "date": "2026-12-27", "source": false}, {"name": "Сергей", "date": "2026-12-28", "source": false}, {"name": "Юрий", "date": "2026-12-29", "source": false}, {"name": "Стас", "date": "2026-12-30", "source": false}, {"name": "Наташа", "date": "2026-12-31", "source": false}, {"name": "Сергей", "date": "2027-01-01", "source": false}, {"name": "Юрий", "date": "2027-01-02", "source": false}, {"name": "Стас", "date": "2027-01-03", "source": false}, {"name": "Наташа", "date": "2027-01-04", "source": false}, {"name": "Сергей", "date": "2027-01-05", "source": false}, {"name": "Юрий", "date": "2027-01-06", "source": false}, {"name": "Стас", "date": "2027-01-07", "source": false}, {"name": "Наташа", "date": "2027-01-08", "source": false}, {"name": "Сергей", "date": "2027-01-09", "source": false}, {"name": "Юрий", "date": "2027-01-10", "source": false}, {"name": "Стас", "date": "2027-01-11", "source": false}, {"name": "Наташа", "date": "2027-01-12", "source": false}, {"name": "Сергей", "date": "2027-01-13", "source": false}, {"name": "Юрий", "date": "2027-01-14", "source": false}, {"name": "Стас", "date": "2027-01-15", "source": false}, {"name": "Наташа", "date": "2027-01-16", "source": false}, {"name": "Сергей", "date": "2027-01-17", "source": false}, {"name": "Юрий", "date": "2027-01-18", "source": false}, {"name": "Стас", "date": "2027-01-19", "source": false}, {"name": "Наташа", "date": "2027-01-20", "source": false}, {"name": "Сергей", "date": "2027-01-21", "source": false}, {"name": "Юрий", "date": "2027-01-22", "source": false}, {"name": "Стас", "date": "2027-01-23", "source": false}, {"name": "Наташа", "date": "2027-01-24", "source": false}, {"name": "Сергей", "date": "2027-01-25", "source": false}, {"name": "Юрий", "date": "2027-01-26", "source": false}, {"name": "Стас", "date": "2027-01-27", "source": false}, {"name": "Наташа", "date": "2027-01-28", "source": false}, {"name": "Сергей", "date": "2027-01-29", "source": false}, {"name": "Юрий", "date": "2027-01-30", "source": false}, {"name": "Стас", "date": "2027-01-31", "source": false}, {"name": "Наташа", "date": "2027-02-01", "source": false}, {"name": "Сергей", "date": "2027-02-02", "source": false}, {"name": "Юрий", "date": "2027-02-03", "source": false}, {"name": "Стас", "date": "2027-02-04", "source": false}, {"name": "Наташа", "date": "2027-02-05", "source": false}, {"name": "Сергей", "date": "2027-02-06", "source": false}, {"name": "Юрий", "date": "2027-02-07", "source": false}, {"name": "Стас", "date": "2027-02-08", "source": false}, {"name": "Наташа", "date": "2027-02-09", "source": false}, {"name": "Сергей", "date": "2027-02-10", "source": false}, {"name": "Юрий", "date": "2027-02-11", "source": false}, {"name": "Стас", "date": "2027-02-12", "source": false}, {"name": "Наташа", "date": "2027-02-13", "source": false}, {"name": "Сергей", "date": "2027-02-14", "source": false}, {"name": "Юрий", "date": "2027-02-15", "source": false}, {"name": "Стас", "date": "2027-02-16", "source": false}, {"name": "Наташа", "date": "2027-02-17", "source": false}, {"name": "Сергей", "date": "2027-02-18", "source": false}, {"name": "Юрий", "date": "2027-02-19", "source": false}, {"name": "Стас", "date": "2027-02-20", "source": false}, {"name": "Наташа", "date": "2027-02-21", "source": false}, {"name": "Сергей", "date": "2027-02-22", "source": false}, {"name": "Юрий", "date": "2027-02-23", "source": false}, {"name": "Стас", "date": "2027-02-24", "source": false}, {"name": "Наташа", "date": "2027-02-25", "source": false}, {"name": "Сергей", "date": "2027-02-26", "source": false}, {"name": "Юрий", "date": "2027-02-27", "source": false}, {"name": "Стас", "date": "2027-02-28", "source": false}, {"name": "Наташа", "date": "2027-03-01", "source": false}, {"name": "Сергей", "date": "2027-03-02", "source": false}, {"name": "Юрий", "date": "2027-03-03", "source": false}, {"name": "Стас", "date": "2027-03-04", "source": false}, {"name": "Наташа", "date": "2027-03-05", "source": false}, {"name": "Сергей", "date": "2027-03-06", "source": false}, {"name": "Юрий", "date": "2027-03-07", "source": false}, {"name": "Стас", "date": "2027-03-08", "source": false}, {"name": "Наташа", "date": "2027-03-09", "source": false}, {"name": "Сергей", "date": "2027-03-10", "source": false}, {"name": "Юрий", "date": "2027-03-11", "source": false}, {"name": "Стас", "date": "2027-03-12", "source": false}, {"name": "Наташа", "date": "2027-03-13", "source": false}, {"name": "Сергей", "date": "2027-03-14", "source": false}, {"name": "Юрий", "date": "2027-03-15", "source": false}, {"name": "Стас", "date": "2027-03-16", "source": false}, {"name": "Наташа", "date": "2027-03-17", "source": false}, {"name": "Сергей", "date": "2027-03-18", "source": false}, {"name": "Юрий", "date": "2027-03-19", "source": false}, {"name": "Стас", "date": "2027-03-20", "source": false}, {"name": "Наташа", "date": "2027-03-21", "source": false}, {"name": "Сергей", "date": "2027-03-22", "source": false}, {"name": "Юрий", "date": "2027-03-23", "source": false}, {"name": "Стас", "date": "2027-03-24", "source": false}, {"name": "Наташа", "date": "2027-03-25", "source": false}, {"name": "Сергей", "date": "2027-03-26", "source": false}, {"name": "Юрий", "date": "2027-03-27", "source": false}, {"name": "Стас", "date": "2027-03-28", "source": false}, {"name": "Наташа", "date": "2027-03-29", "source": false}, {"name": "Сергей", "date": "2027-03-30", "source": false}, {"name": "Юрий", "date": "2027-03-31", "source": false}, {"name": "Стас", "date": "2027-04-01", "source": false}, {"name": "Наташа", "date": "2027-04-02", "source": false}, {"name": "Сергей", "date": "2027-04-03", "source": false}, {"name": "Юрий", "date": "2027-04-04", "source": false}, {"name": "Стас", "date": "2027-04-05", "source": false}, {"name": "Наташа", "date": "2027-04-06", "source": false}, {"name": "Сергей", "date": "2027-04-07", "source": false}, {"name": "Юрий", "date": "2027-04-08", "source": false}, {"name": "Стас", "date": "2027-04-09", "source": false}, {"name": "Наташа", "date": "2027-04-10", "source": false}, {"name": "Сергей", "date": "2027-04-11", "source": false}, {"name": "Юрий", "date": "2027-04-12", "source": false}, {"name": "Стас", "date": "2027-04-13", "source": false}, {"name": "Наташа", "date": "2027-04-14", "source": false}, {"name": "Сергей", "date": "2027-04-15", "source": false}, {"name": "Юрий", "date": "2027-04-16", "source": false}, {"name": "Стас", "date": "2027-04-17", "source": false}, {"name": "Наташа", "date": "2027-04-18", "source": false}, {"name": "Сергей", "date": "2027-04-19", "source": false}, {"name": "Юрий", "date": "2027-04-20", "source": false}, {"name": "Стас", "date": "2027-04-21", "source": false}, {"name": "Наташа", "date": "2027-04-22", "source": false}, {"name": "Сергей", "date": "2027-04-23", "source": false}, {"name": "Юрий", "date": "2027-04-24", "source": false}, {"name": "Стас", "date": "2027-04-25", "source": false}, {"name": "Наташа", "date": "2027-04-26", "source": false}, {"name": "Сергей", "date": "2027-04-27", "source": false}, {"name": "Юрий", "date": "2027-04-28", "source": false}, {"name": "Стас", "date": "2027-04-29", "source": false}, {"name": "Наташа", "date": "2027-04-30", "source": false}, {"name": "Сергей", "date": "2027-05-01", "source": false}, {"name": "Юрий", "date": "2027-05-02", "source": false}, {"name": "Стас", "date": "2027-05-03", "source": false}, {"name": "Наташа", "date": "2027-05-04", "source": false}, {"name": "Сергей", "date": "2027-05-05", "source": false}, {"name": "Юрий", "date": "2027-05-06", "source": false}, {"name": "Стас", "date": "2027-05-07", "source": false}, {"name": "Наташа", "date": "2027-05-08", "source": false}, {"name": "Сергей", "date": "2027-05-09", "source": false}, {"name": "Юрий", "date": "2027-05-10", "source": false}, {"name": "Стас", "date": "2027-05-11", "source": false}, {"name": "Наташа", "date": "2027-05-12", "source": false}, {"name": "Сергей", "date": "2027-05-13", "source": false}, {"name": "Юрий", "date": "2027-05-14", "source": false}, {"name": "Стас", "date": "2027-05-15", "source": false}, {"name": "Наташа", "date": "2027-05-16", "source": false}, {"name": "Сергей", "date": "2027-05-17", "source": false}, {"name": "Юрий", "date": "2027-05-18", "source": false}, {"name": "Стас", "date": "2027-05-19", "source": false}, {"name": "Наташа", "date": "2027-05-20", "source": false}, {"name": "Сергей", "date": "2027-05-21", "source": false}, {"name": "Юрий", "date": "2027-05-22", "source": false}, {"name": "Стас", "date": "2027-05-23", "source": false}, {"name": "Наташа", "date": "2027-05-24", "source": false}, {"name": "Сергей", "date": "2027-05-25", "source": false}, {"name": "Юрий", "date": "2027-05-26", "source": false}, {"name": "Стас", "date": "2027-05-27", "source": false}, {"name": "Наташа", "date": "2027-05-28", "source": false}, {"name": "Сергей", "date": "2027-05-29", "source": false}, {"name": "Юрий", "date": "2027-05-30", "source": false}, {"name": "Стас", "date": "2027-05-31", "source": false}, {"name": "Наташа", "date": "2027-06-01", "source": false}, {"name": "Сергей", "date": "2027-06-02", "source": false}, {"name": "Юрий", "date": "2027-06-03", "source": false}, {"name": "Стас", "date": "2027-06-04", "source": false}, {"name": "Наташа", "date": "2027-06-05", "source": false}, {"name": "Сергей", "date": "2027-06-06", "source": false}, {"name": "Юрий", "date": "2027-06-07", "source": false}, {"name": "Стас", "date": "2027-06-08", "source": false}, {"name": "Наташа", "date": "2027-06-09", "source": false}, {"name": "Сергей", "date": "2027-06-10", "source": false}, {"name": "Юрий", "date": "2027-06-11", "source": false}, {"name": "Стас", "date": "2027-06-12", "source": false}, {"name": "Наташа", "date": "2027-06-13", "source": false}, {"name": "Сергей", "date": "2027-06-14", "source": false}, {"name": "Юрий", "date": "2027-06-15", "source": false}, {"name": "Стас", "date": "2027-06-16", "source": false}, {"name": "Наташа", "date": "2027-06-17", "source": false}, {"name": "Сергей", "date": "2027-06-18", "source": false}, {"name": "Юрий", "date": "2027-06-19", "source": false}, {"name": "Стас", "date": "2027-06-20", "source": false}, {"name": "Наташа", "date": "2027-06-21", "source": false}, {"name": "Сергей", "date": "2027-06-22", "source": false}, {"name": "Юрий", "date": "2027-06-23", "source": false}, {"name": "Стас", "date": "2027-06-24", "source": false}, {"name": "Наташа", "date": "2027-06-25", "source": false}, {"name": "Сергей", "date": "2027-06-26", "source": false}, {"name": "Юрий", "date": "2027-06-27", "source": false}, {"name": "Стас", "date": "2027-06-28", "source": false}, {"name": "Наташа", "date": "2027-06-29", "source": false}, {"name": "Сергей", "date": "2027-06-30", "source": false}, {"name": "Юрий", "date": "2027-07-01", "source": false}, {"name": "Стас", "date": "2027-07-02", "source": false}, {"name": "Наташа", "date": "2027-07-03", "source": false}, {"name": "Сергей", "date": "2027-07-04", "source": false}, {"name": "Юрий", "date": "2027-07-05", "source": false}, {"name": "Стас", "date": "2027-07-06", "source": false}, {"name": "Наташа", "date": "2027-07-07", "source": false}, {"name": "Сергей", "date": "2027-07-08", "source": false}, {"name": "Юрий", "date": "2027-07-09", "source": false}, {"name": "Стас", "date": "2027-07-10", "source": false}, {"name": "Наташа", "date": "2027-07-11", "source": false}, {"name": "Сергей", "date": "2027-07-12", "source": false}, {"name": "Юрий", "date": "2027-07-13", "source": false}, {"name": "Стас", "date": "2027-07-14", "source": false}, {"name": "Наташа", "date": "2027-07-15", "source": false}, {"name": "Сергей", "date": "2027-07-16", "source": false}, {"name": "Юрий", "date": "2027-07-17", "source": false}, {"name": "Стас", "date": "2027-07-18", "source": false}, {"name": "Наташа", "date": "2027-07-19", "source": false}, {"name": "Сергей", "date": "2027-07-20", "source": false}, {"name": "Юрий", "date": "2027-07-21", "source": false}, {"name": "Стас", "date": "2027-07-22", "source": false}, {"name": "Наташа", "date": "2027-07-23", "source": false}, {"name": "Сергей", "date": "2027-07-24", "source": false}, {"name": "Юрий", "date": "2027-07-25", "source": false}, {"name": "Стас", "date": "2027-07-26", "source": false}, {"name": "Наташа", "date": "2027-07-27", "source": false}, {"name": "Сергей", "date": "2027-07-28", "source": false}, {"name": "Юрий", "date": "2027-07-29", "source": false}, {"name": "Стас", "date": "2027-07-30", "source": false}, {"name": "Наташа", "date": "2027-07-31", "source": false}, {"name": "Сергей", "date": "2027-08-01", "source": false}, {"name": "Юрий", "date": "2027-08-02", "source": false}, {"name": "Стас", "date": "2027-08-03", "source": false}, {"name": "Наташа", "date": "2027-08-04", "source": false}, {"name": "Сергей", "date": "2027-08-05", "source": false}, {"name": "Юрий", "date": "2027-08-06", "source": false}, {"name": "Стас", "date": "2027-08-07", "source": false}, {"name": "Наташа", "date": "2027-08-08", "source": false}, {"name": "Сергей", "date": "2027-08-09", "source": false}, {"name": "Юрий", "date": "2027-08-10", "source": false}, {"name": "Стас", "date": "2027-08-11", "source": false}, {"name": "Наташа", "date": "2027-08-12", "source": false}, {"name": "Сергей", "date": "2027-08-13", "source": false}, {"name": "Юрий", "date": "2027-08-14", "source": false}, {"name": "Стас", "date": "2027-08-15", "source": false}, {"name": "Наташа", "date": "2027-08-16", "source": false}, {"name": "Сергей", "date": "2027-08-17", "source": false}, {"name": "Юрий", "date": "2027-08-18", "source": false}, {"name": "Стас", "date": "2027-08-19", "source": false}, {"name": "Наташа", "date": "2027-08-20", "source": false}, {"name": "Сергей", "date": "2027-08-21", "source": false}, {"name": "Юрий", "date": "2027-08-22", "source": false}, {"name": "Стас", "date": "2027-08-23", "source": false}, {"name": "Наташа", "date": "2027-08-24", "source": false}, {"name": "Сергей", "date": "2027-08-25", "source": false}, {"name": "Юрий", "date": "2027-08-26", "source": false}, {"name": "Стас", "date": "2027-08-27", "source": false}, {"name": "Наташа", "date": "2027-08-28", "source": false}, {"name": "Сергей", "date": "2027-08-29", "source": false}, {"name": "Юрий", "date": "2027-08-30", "source": false}, {"name": "Стас", "date": "2027-08-31", "source": false}, {"name": "Наташа", "date": "2027-09-01", "source": false}, {"name": "Сергей", "date": "2027-09-02", "source": false}, {"name": "Юрий", "date": "2027-09-03", "source": false}, {"name": "Стас", "date": "2027-09-04", "source": false}, {"name": "Наташа", "date": "2027-09-05", "source": false}, {"name": "Сергей", "date": "2027-09-06", "source": false}, {"name": "Юрий", "date": "2027-09-07", "source": false}, {"name": "Стас", "date": "2027-09-08", "source": false}, {"name": "Наташа", "date": "2027-09-09", "source": false}, {"name": "Сергей", "date": "2027-09-10", "source": false}, {"name": "Юрий", "date": "2027-09-11", "source": false}, {"name": "Стас", "date": "2027-09-12", "source": false}, {"name": "Наташа", "date": "2027-09-13", "source": false}, {"name": "Сергей", "date": "2027-09-14", "source": false}, {"name": "Юрий", "date": "2027-09-15", "source": false}, {"name": "Стас", "date": "2027-09-16", "source": false}, {"name": "Наташа", "date": "2027-09-17", "source": false}, {"name": "Сергей", "date": "2027-09-18", "source": false}, {"name": "Юрий", "date": "2027-09-19", "source": false}, {"name": "Стас", "date": "2027-09-20", "source": false}, {"name": "Наташа", "date": "2027-09-21", "source": false}, {"name": "Сергей", "date": "2027-09-22", "source": false}, {"name": "Юрий", "date": "2027-09-23", "source": false}, {"name": "Стас", "date": "2027-09-24", "source": false}, {"name": "Наташа", "date": "2027-09-25", "source": false}, {"name": "Сергей", "date": "2027-09-26", "source": false}, {"name": "Юрий", "date": "2027-09-27", "source": false}, {"name": "Стас", "date": "2027-09-28", "source": false}, {"name": "Наташа", "date": "2027-09-29", "source": false}, {"name": "Сергей", "date": "2027-09-30", "source": false}, {"name": "Юрий", "date": "2027-10-01", "source": false}, {"name": "Стас", "date": "2027-10-02", "source": false}, {"name": "Наташа", "date": "2027-10-03", "source": false}, {"name": "Сергей", "date": "2027-10-04", "source": false}, {"name": "Юрий", "date": "2027-10-05", "source": false}, {"name": "Стас", "date": "2027-10-06", "source": false}, {"name": "Наташа", "date": "2027-10-07", "source": false}, {"name": "Сергей", "date": "2027-10-08", "source": false}, {"name": "Юрий", "date": "2027-10-09", "source": false}, {"name": "Стас", "date": "2027-10-10", "source": false}, {"name": "Наташа", "date": "2027-10-11", "source": false}, {"name": "Сергей", "date": "2027-10-12", "source": false}, {"name": "Юрий", "date": "2027-10-13", "source": false}, {"name": "Стас", "date": "2027-10-14", "source": false}, {"name": "Наташа", "date": "2027-10-15", "source": false}, {"name": "Сергей", "date": "2027-10-16", "source": false}, {"name": "Юрий", "date": "2027-10-17", "source": false}, {"name": "Стас", "date": "2027-10-18", "source": false}, {"name": "Наташа", "date": "2027-10-19", "source": false}, {"name": "Сергей", "date": "2027-10-20", "source": false}, {"name": "Юрий", "date": "2027-10-21", "source": false}, {"name": "Стас", "date": "2027-10-22", "source": false}, {"name": "Наташа", "date": "2027-10-23", "source": false}, {"name": "Сергей", "date": "2027-10-24", "source": false}, {"name": "Юрий", "date": "2027-10-25", "source": false}, {"name": "Стас", "date": "2027-10-26", "source": false}, {"name": "Наташа", "date": "2027-10-27", "source": false}, {"name": "Сергей", "date": "2027-10-28", "source": false}, {"name": "Юрий", "date": "2027-10-29", "source": false}, {"name": "Стас", "date": "2027-10-30", "source": false}, {"name": "Наташа", "date": "2027-10-31", "source": false}, {"name": "Сергей", "date": "2027-11-01", "source": false}, {"name": "Юрий", "date": "2027-11-02", "source": false}, {"name": "Стас", "date": "2027-11-03", "source": false}, {"name": "Наташа", "date": "2027-11-04", "source": false}, {"name": "Сергей", "date": "2027-11-05", "source": false}, {"name": "Юрий", "date": "2027-11-06", "source": false}, {"name": "Стас", "date": "2027-11-07", "source": false}, {"name": "Наташа", "date": "2027-11-08", "source": false}, {"name": "Сергей", "date": "2027-11-09", "source": false}, {"name": "Юрий", "date": "2027-11-10", "source": false}, {"name": "Стас", "date": "2027-11-11", "source": false}, {"name": "Наташа", "date": "2027-11-12", "source": false}, {"name": "Сергей", "date": "2027-11-13", "source": false}, {"name": "Юрий", "date": "2027-11-14", "source": false}, {"name": "Стас", "date": "2027-11-15", "source": false}, {"name": "Наташа", "date": "2027-11-16", "source": false}, {"name": "Сергей", "date": "2027-11-17", "source": false}, {"name": "Юрий", "date": "2027-11-18", "source": false}, {"name": "Стас", "date": "2027-11-19", "source": false}, {"name": "Наташа", "date": "2027-11-20", "source": false}, {"name": "Сергей", "date": "2027-11-21", "source": false}, {"name": "Юрий", "date": "2027-11-22", "source": false}, {"name": "Стас", "date": "2027-11-23", "source": false}, {"name": "Наташа", "date": "2027-11-24", "source": false}, {"name": "Сергей", "date": "2027-11-25", "source": false}, {"name": "Юрий", "date": "2027-11-26", "source": false}, {"name": "Стас", "date": "2027-11-27", "source": false}, {"name": "Наташа", "date": "2027-11-28", "source": false}, {"name": "Сергей", "date": "2027-11-29", "source": false}, {"name": "Юрий", "date": "2027-11-30", "source": false}, {"name": "Стас", "date": "2027-12-01", "source": false}, {"name": "Наташа", "date": "2027-12-02", "source": false}, {"name": "Сергей", "date": "2027-12-03", "source": false}, {"name": "Юрий", "date": "2027-12-04", "source": false}, {"name": "Стас", "date": "2027-12-05", "source": false}, {"name": "Наташа", "date": "2027-12-06", "source": false}, {"name": "Сергей", "date": "2027-12-07", "source": false}, {"name": "Юрий", "date": "2027-12-08", "source": false}, {"name": "Стас", "date": "2027-12-09", "source": false}, {"name": "Наташа", "date": "2027-12-10", "source": false}, {"name": "Сергей", "date": "2027-12-11", "source": false}, {"name": "Юрий", "date": "2027-12-12", "source": false}, {"name": "Стас", "date": "2027-12-13", "source": false}, {"name": "Наташа", "date": "2027-12-14", "source": false}, {"name": "Сергей", "date": "2027-12-15", "source": false}, {"name": "Юрий", "date": "2027-12-16", "source": false}, {"name": "Стас", "date": "2027-12-17", "source": false}, {"name": "Наташа", "date": "2027-12-18", "source": false}, {"name": "Сергей", "date": "2027-12-19", "source": false}, {"name": "Юрий", "date": "2027-12-20", "source": false}, {"name": "Стас", "date": "2027-12-21", "source": false}, {"name": "Наташа", "date": "2027-12-22", "source": false}, {"name": "Сергей", "date": "2027-12-23", "source": false}, {"name": "Юрий", "date": "2027-12-24", "source": false}, {"name": "Стас", "date": "2027-12-25", "source": false}, {"name": "Наташа", "date": "2027-12-26", "source": false}, {"name": "Сергей", "date": "2027-12-27", "source": false}, {"name": "Юрий", "date": "2027-12-28", "source": false}, {"name": "Стас", "date": "2027-12-29", "source": false}, {"name": "Наташа", "date": "2027-12-30", "source": false}, {"name": "Сергей", "date": "2027-12-31", "source": false}];
+const person = document.getElementById('person');
+const dates = document.getElementById('dates');
+const heading = document.getElementById('heading');
+const count = document.getElementById('count');
+const empty = document.getElementById('empty');
+const fmt = new Intl.DateTimeFormat('ru-RU', {day:'2-digit',month:'2-digit',year:'numeric',weekday:'long'});
+function render() {
+  const name = person.value;
+  const selected = records.filter(r => r.name === name);
+  heading.textContent = 'Даты: ' + name;
+  count.textContent = selected.length + ' ' + plural(selected.length);
+  dates.replaceChildren();
+  empty.hidden = selected.length !== 0;
+
+  // Find closest upcoming date (>= today in YYYY-MM-DD format)
+  // Let's use local date string YYYY-MM-DD
+  const todayObj = new Date();
+  const yyyy = todayObj.getFullYear();
+  const mm = String(todayObj.getMonth() + 1).padStart(2, '0');
+  const dd = String(todayObj.getDate).padStart ? String(todayObj.getDate()).padStart(2, '0') : '17'; 
+  // Let's write robust date formatting:
+  const tzOffset = todayObj.getTimezoneOffset() * 60000;
+  const localISODate = new Date(todayObj - tzOffset).toISOString().slice(0, 10);
+
+  let nextRec = null;
+  for (const r of selected) {
+    if (r.date >= localISODate) {
+      nextRec = r;
+      break;
+    }
+  }
+
+  const nextCard = document.getElementById('next-date-card');
+  const nextValue = document.getElementById('next-date-value');
+  const nextLabel = document.getElementById('next-date-label');
+  
+  nextCard.className = 'stat'; // reset
+  if (nextRec) {
+    const dtNext = new Date(nextRec.date + 'T12:00:00');
+    nextValue.textContent = fmt.format(dtNext);
+    
+    // Check if today or tomorrow
+    // Calculate difference in days
+    const d1 = new Date(localISODate + 'T00:00:00');
+    const d2 = new Date(nextRec.date + 'T00:00:00');
+    const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      nextCard.classList.add('today');
+      nextLabel.textContent = 'Ближайшая дата (Сегодня!)';
+    } else if (diffDays === 1) {
+      nextCard.classList.add('tomorrow');
+      nextLabel.textContent = 'Ближайшая дата (Завтра)';
+    } else {
+      nextLabel.textContent = 'Ближайшая дата снятия шкур';
+    }
+  } else {
+    nextValue.textContent = 'Нет дат';
+    nextLabel.textContent = 'Ближайшая дата снятия шкур';
+  }
+
+  selected.forEach((r, index) => {
+    const dt = new Date(r.date + 'T12:00:00');
+    const item = document.createElement('div');
+    item.className = 'date-item';
+    const dateText = document.createElement('strong');
+    dateText.textContent = fmt.format(dt);
+    const number = document.createElement('small');
+    number.textContent = r.source ? 'Исходная запись' : 'По циклу';
+    item.append(dateText, number);
+    dates.append(item);
+  });
+}
+function plural(n) {
+  const m10=n%10,m100=n%100;
+  if(m10===1 && m100!==11) return 'дата';
+  if(m10>=2 && m10<=4 && !(m100>=12 && m100<=14)) return 'даты';
+  return 'дат';
+}
+person.addEventListener('change', render);
+render();
+</script>
+</body>
+</html>
