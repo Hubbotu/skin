@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>График снятия шкур</title>
-<script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=SMvtF7l_vbhLhiERU2pWfTz6geg9T97xY3p5007-czO2pA2W3nLgxJgI31wWxpYJmMH6asZ8Y3X5M5UkLhmAxdTfvTh19QA0O8yNodSrve189zsHOcr72cQVG0aaLdvP1fBRYZgJ0CYK7LQDLQUM5hBV5wgMC4At6vi9M2QXI9tLzBdcaMgF2Z7Qsez2o6o_SjHK-ze9437jnH191H9jBL6FYUuedyLBjmQKQ1gXedBi0CTYJXJb3LOAtp3Oml-NA11ELnzwMcMHzZ25Agx8DuIMwZX8wUCKD1NWruSEsypqdoIXcuSoKnvsC-qvS86rfutUUvaS0lMywdSTigIZshzb_m96LBugSlDMqyyW6lQ" charset="UTF-8"></script><style>
+<style>
 :root{--ink:#1c242b;--muted:#687782;--line:#dfe5ec;--accent:#2aabee;--soft:#e3f3fc}
 *{box-sizing:border-box}
 body{
@@ -114,13 +114,7 @@ function render() {
   dates.replaceChildren();
   empty.hidden = selected.length !== 0;
 
-  // Find closest upcoming date (>= today in YYYY-MM-DD format)
-  // Let's use local date string YYYY-MM-DD
   const todayObj = new Date();
-  const yyyy = todayObj.getFullYear();
-  const mm = String(todayObj.getMonth() + 1).padStart(2, '0');
-  const dd = String(todayObj.getDate).padStart ? String(todayObj.getDate()).padStart(2, '0') : '17'; 
-  // Let's write robust date formatting:
   const tzOffset = todayObj.getTimezoneOffset() * 60000;
   const localISODate = new Date(todayObj - tzOffset).toISOString().slice(0, 10);
 
@@ -136,13 +130,11 @@ function render() {
   const nextValue = document.getElementById('next-date-value');
   const nextLabel = document.getElementById('next-date-label');
   
-  nextCard.className = 'stat'; // reset
+  nextCard.className = 'stat';
   if (nextRec) {
     const dtNext = new Date(nextRec.date + 'T12:00:00');
     nextValue.textContent = fmt.format(dtNext);
     
-    // Check if today or tomorrow
-    // Calculate difference in days
     const d1 = new Date(localISODate + 'T00:00:00');
     const d2 = new Date(nextRec.date + 'T00:00:00');
     const diffDays = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
@@ -161,7 +153,7 @@ function render() {
     nextLabel.textContent = 'Ближайшая дата снятия шкур';
   }
 
-  selected.forEach((r, index) => {
+  selected.forEach((r) => {
     const dt = new Date(r.date + 'T12:00:00');
     const item = document.createElement('div');
     item.className = 'date-item';
