@@ -39,7 +39,7 @@ header{
 }
 h1{margin:8px 0 5px;font-size:clamp(26px,5vw,34px);letter-spacing:-.03em;color:#18222d}
 .sub{margin:0;color:var(--muted)}
-.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:16px 0}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}
 .stat,.panel{
   background:rgba(255,255,255,0.95);
   backdrop-filter:blur(10px);
@@ -48,7 +48,9 @@ h1{margin:8px 0 5px;font-size:clamp(26px,5vw,34px);letter-spacing:-.03em;color:#
   border-radius:16px;
   box-shadow:0 4px 14px rgba(24,52,38,0.1);
 }
-.stat{padding:16px 18px}.stat strong{display:block;font-size:23px;letter-spacing:-.03em}.stat span{color:var(--muted);font-size:13px}
+.stat{padding:16px 18px}.stat strong{display:block;font-size:21px;letter-spacing:-.03em}.stat span{color:var(--muted);font-size:13px}
+.stat.tomorrow-card{background:#fef9c3;border-color:#fde047;color:#713f12}
+.stat.tomorrow-card span{color:#854d0e;font-weight:600}
 .panel{padding:20px;margin-bottom:16px}
 label{display:block;margin-bottom:8px;font-weight:700;color:#18222d}
 select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink);font:inherit;outline:none;cursor:pointer}
@@ -62,7 +64,8 @@ select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,171,238,0.2
 .date-item strong{font-variant-numeric:tabular-nums}
 .empty{padding:22px;text-align:center;color:var(--muted)}
 .note{margin:14px 2px 0;color:var(--muted);font-size:12px}
-@media(max-width:480px){body{padding:18px 12px}.date-list{grid-template-columns:1fr}.stats{grid-template-columns:1fr}}
+@media(max-width:640px){.stats{grid-template-columns:1fr}}
+@media(max-width:480px){body{padding:18px 12px}.date-list{grid-template-columns:1fr}}
 .stat.today { background: #e8f8ed !important; border-color: #8ce0a8 !important; color: #14532d !important; }
 .stat.today span { color: #166534 !important; font-weight: 600; }
 .stat.tomorrow { background: #fef9c3 !important; border-color: #fde047 !important; color: #713f12 !important; }
@@ -86,7 +89,11 @@ select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,171,238,0.2
 </div>
 <div class="stat">
   <strong id="today-start-value">—</strong>
-  <span>Старт времени</span>
+  <span>Старт сегодня</span>
+</div>
+<div class="stat tomorrow-card" id="tomorrow-start-card">
+  <strong id="tomorrow-start-value">—</strong>
+  <span>Старт завтра</span>
 </div>
 </section>
 <section class="panel">
@@ -117,12 +124,14 @@ const heading = document.getElementById('heading');
 const count = document.getElementById('count');
 const empty = document.getElementById('empty');
 const todayStartValue = document.getElementById('today-start-value');
+const tomorrowStartValue = document.getElementById('tomorrow-start-value');
 const currentDateTop = document.getElementById('current-date-top');
 const fmt = new Intl.DateTimeFormat('ru-RU', {day:'2-digit',month:'2-digit',year:'numeric',weekday:'long'});
 const fmtShort = new Intl.DateTimeFormat('ru-RU', {day:'2-digit',month:'2-digit',year:'numeric'});
 
-function getLocalISODate() {
+function getLocalISODate(offsetDays = 0) {
   const todayObj = new Date();
+  todayObj.setDate(todayObj.getDate() + offsetDays);
   const tzOffset = todayObj.getTimezoneOffset() * 60000;
   return new Date(todayObj - tzOffset).toISOString().slice(0, 10);
 }
@@ -140,7 +149,7 @@ function getStartTimeForDate(isoDate) {
 }
 
 function initTodayPerson() {
-  const localISODate = getLocalISODate();
+  const localISODate = getLocalISODate(0);
   const dtToday = new Date(localISODate + 'T12:00:00');
   const todayRecord = records.find(r => r.date === localISODate);
   if (todayRecord) {
@@ -153,10 +162,14 @@ function initTodayPerson() {
 
 function render() {
   const name = person.value;
-  const localISODate = getLocalISODate();
+  const localISODate = getLocalISODate(0);
+  const tomorrowISODate = getLocalISODate(1);
 
   const todayTime = getStartTimeForDate(localISODate);
+  const tomorrowTime = getStartTimeForDate(tomorrowISODate);
+
   todayStartValue.textContent = 'Сегодня с ' + todayTime;
+  tomorrowStartValue.textContent = 'Завтра с ' + tomorrowTime;
 
   const allForPerson = records.filter(r => r.name === name);
   let nextRec = null;
